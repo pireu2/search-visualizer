@@ -7,6 +7,19 @@ from Searcher import Searcher
 from constants import *
 
 
+def print_tutorial():
+    print("""
+        Press 'w' to draw walls
+        Press 's' to draw the starting point
+        Press 'e' to draw the ending point
+        Press 'r' to reset the grid
+        Press '1' to run BFS
+        Press '2' to run DFS
+        Press '3' to run Dijkstra's
+        Press '4' to run A*
+        Press '5' to run Uniform Cost Search
+              """)
+
 
 
 
@@ -18,23 +31,15 @@ if __name__ == "__main__":
     grid = Grid(window)
     searcher = Searcher(grid)
 
+    print_tutorial()
+
 
     while True:
         window.fill(BACKGROUND_COLOR)
         grid.draw_squares()
         grid.draw_grid()
 
-        print("""
-        Press 'w' to draw walls
-        Press 's' to draw the starting point
-        Press 'e' to draw the ending point
-        Press 'r' to reset the grid
-        Press '1' to run BFS
-        Press '2' to run DFS
-        Press '3' to run Dijkstra's
-        Press '4' to run A*
-        Press '5' to run Uniform Cost Search
-              """)
+        
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -57,6 +62,7 @@ if __name__ == "__main__":
                 elif event.key == pygame.K_e:
                     grid.set_mode(DrawModes.END)
                 elif event.key == pygame.K_r:
+                    print_tutorial()
                     grid = Grid(window)
                     searcher = Searcher(grid)
                 elif event.key == pygame.K_ESCAPE:

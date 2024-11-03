@@ -35,6 +35,20 @@ class Searcher():
         self.grid.draw_squares()
         pygame.display.update()
 
+    def print_path(self):
+        path = self.get_path()
+        print("Path")
+        print("Start:")
+        for square in path:
+            if square == self.grid.starting_point:
+                print(f"  ({square.row}, {square.col}),")
+            elif square == self.grid.ending_point:
+                print(f"  ({square.row}, {square.col})")
+            else:
+                print(f"  ({square.row}, {square.col}),")
+        print("Goal")
+        print(f"Length: {len(path)} steps")
+
 
     def bfs(self):
         if not self.grid.can_search():
@@ -47,13 +61,12 @@ class Searcher():
             current = queue.pop(0)
             if current == self.grid.ending_point:
                 self.draw_path()
+                self.print_path()
                 return
             visited.add(current)
             if current != self.grid.starting_point and current != self.grid.ending_point:
                 current.color = LIGHT_BLUE
             for neighbor in self.get_neighbors(current):
-                if neighbor.color == self.grid.wall_color:
-                    continue
                 if neighbor not in visited and neighbor not in queue:
                     queue.append(neighbor)
                     self.parent_map[neighbor] = current
@@ -74,13 +87,12 @@ class Searcher():
             current = stack.pop()
             if current == self.grid.ending_point:
                 self.draw_path()
+                self.print_path()
                 return
             visited.add(current)
             if current != self.grid.starting_point and current != self.grid.ending_point:
                 current.color = LIGHT_BLUE
             for neighbor in self.get_neighbors(current):
-                if neighbor.color == self.grid.wall_color:
-                    continue
                 if neighbor not in visited and neighbor not in stack:
                     stack.append(neighbor)
                     self.parent_map[neighbor] = current
@@ -101,13 +113,12 @@ class Searcher():
             current = queue.pop(0)
             if current == self.grid.ending_point:
                 self.draw_path()
+                self.print_path()
                 return
             visited.add(current)
             if current != self.grid.starting_point and current != self.grid.ending_point:
                 current.color = LIGHT_BLUE
             for neighbor in self.get_neighbors(current):
-                if neighbor.color == self.grid.wall_color:
-                    continue
                 if neighbor not in visited and neighbor not in queue:
                     queue.append(neighbor)
                     self.parent_map[neighbor] = current
@@ -136,14 +147,13 @@ class Searcher():
                     current = square
             if current == self.grid.ending_point:
                 self.draw_path()
+                self.print_path()
                 return
             open_set.remove(current)
             closed_set.add(current)
             if current != self.grid.starting_point and current != self.grid.ending_point:
                 current.color = LIGHT_BLUE
             for neighbor in self.get_neighbors(current):
-                if neighbor.color == self.grid.wall_color:
-                    continue
                 if neighbor in closed_set:
                     continue
                 tentative_g_score = g_score[current] + 1
@@ -175,14 +185,13 @@ class Searcher():
                     current = square
             if current == self.grid.ending_point:
                 self.draw_path()
+                self.print_path()
                 return
             open_set.remove(current)
             closed_set.add(current)
             if current != self.grid.starting_point and current != self.grid.ending_point:
                 current.color = LIGHT_BLUE
             for neighbor in self.get_neighbors(current):
-                if neighbor.color == self.grid.wall_color:
-                    continue
                 if neighbor in closed_set:
                     continue
                 tentative_g_score = g_score[current] + 1
